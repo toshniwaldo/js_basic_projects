@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Counter</title>
+    <style>
+    </style>
+</head>
+<body>
+
+<div id= "clock"style="display: inline;">
+    <div id = "hours" class="div" style="display: inline;">0</div>
+    <div style="display: inline;">::</div>
+    <div id = "min"class="div" style="display: inline;">0</div>
+    <div style="display: inline;">::</div>
+    <div id = "sec"class="div" style="display: inline;">0</div>
+</div>
+    <script>
+
+function gettingtimee()
+{
+const now = new Date();
+const hours = now.getHours();
+const minutes = now.getMinutes();
+const seconds = now.getSeconds();
+// console.log(`Current time: ${hours}:${minutes}:${seconds}`);
+const h = document.getElementById('hours');
+h.textContent=hours;
+const m = document.getElementById('min');
+m.textContent=minutes;
+const s = document.getElementById('sec');
+s.textContent=seconds;
+}
+gettingtimee();
+setInterval(gettingtimee, 1000);
+    </script>
+</body>
+</html>
