@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="title">enter title</input>
+    <br>
+    <input id="desc">enter desc</input>
+    <br>
+    </div>
+    <button onclick="fun()">add todo</button>
+    <br>
+    <div id="ans"></div>
+    
+    <script>
+        let id=1;
+
+        function markingdone(id){
+            const element = document.getElementById(id);
+            element.children[2].innerHTML="done!";
+        }
+
+        function createChild(title, desc,id){
+            const child = document.createElement("div");
+            const child1= document.createElement("div");
+            child1.innerHTML=title;
+            const child2= document.createElement("div");
+            child2.innerHTML=desc;
+            const child3=document.createElement("button");
+            child3.innerHTML="mark as done";
+            child.setAttribute("id",id);
+            child3.setAttribute("onclick", `markingdone(${id})`);
+            child.appendChild(child1);
+            child.appendChild(child2);
+            child.appendChild(child3);
+            return child;
+        }
+        
+        function fun(){
+            const title = document.getElementById('title').value;
+            const desc = document.getElementById('desc').value;
+            const parent = document.getElementById('ans');
+
+            const new_child = createChild(title,desc,id);
+            id++;
+            parent.appendChild(new_child);
+        }
+    </script>
+</body>
+</html>
