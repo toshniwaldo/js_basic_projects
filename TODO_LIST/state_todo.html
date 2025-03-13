@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<body>
+
+    <div id="ans"></div>
+
+    <script>
+        // Function to mark a todo as done
+        async function markingdone(event, id) {
+            event.target.innerHTML = "Done!";
+            event.target.disabled = true; // Prevent multiple clicks
+            
+            try {
+                await fetch(`https://v0-build-todo-endpoint.vercel.app/api/todos/${id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status: "done" })
+                });
+            } catch (error) {
+                console.error("Error updating task:", error);
+            }
+        }
+
+        // Function to create a todo item
+        function createChild(title, desc, id) {
+            const child = document.createElement("div");
+
+            const child1 = document.createElement("div");
+            child1.innerHTML = `<strong>${title}</strong>`;
+
+            const child2 = document.createElement("div");
+            child2.innerHTML = desc;
+
+            const child3 = document.createElement("button");
+            child3.innerHTML = "Mark as Done";
+            child3.onclick = (event) => markingdone(event, id); // Corrected event handling
+
+            child.appendChild(child1);
+            child.appendChild(child2);
+            child.appendChild(child3);
+            return child;
+        }
+
+        // Function to update the todo list
+        function update_todo_with_state(state) {
+            const parent = document.getElementById('ans');
+            parent.innerHTML = ""; // Clear existing list
+
+            state.forEach(todo => {
+                const child = createChild(todo.title, todo.desc, todo.id);
+                parent.appendChild(child);
+            });
+        }
+
+        // Fetch todos every 5 seconds with error handling
+        window.setInterval(async function() {
+            try {
+                const res = await fetch("https://v0-build-todo-endpoint.vercel.app/api/todos");
+                if (!res.ok) throw new Error("Failed to fetch data");
+                const ans = await res.json();
+                update_todo_with_state(ans);
+            } catch (error) {
+                console.error("Error fetching todos:", error);
+            }
+        }, 5000);
+
+    </script>
+</body>
+</html>
